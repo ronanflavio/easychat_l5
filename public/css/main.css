@@ -1,0 +1,232 @@
+.right {
+    text-align: right;
+}
+
+.left {
+    text-align: left;
+}
+
+.center {
+    text-align: center;
+}
+
+div .right {
+    float: right;
+}
+
+div .left {
+    float: left;
+}
+
+.btn-group {
+    padding: 0 5px 0 5px;
+}
+
+.actions-table {
+    min-width: 60px;
+}
+
+button.tip {
+    padding: 0;
+    margin: -1px 0 0;
+    display: inline-block;
+    background: none;
+    border: none;
+    line-height: 15px;
+}
+button.tip:hover {
+    text-decoration: underline;
+    color: #005580;
+}
+.tip.disabled {
+  cursor: default;
+  opacity: 0.30;
+  filter: alpha(opacity=30);
+  text-decoration: none;
+}
+
+.icon-btn {
+    padding-left: 10px;
+}
+
+div.right { text-align: right; }
+div.left { text-align: left; }
+div.center { text-align: center; }
+
+th.actions4 {
+    width: 180px;
+    min-width: 180px;
+}
+
+th.actions3 {
+    min-width: 140px;
+    width: 140px;
+}
+
+th.actions2 {
+    min-width: 100px;
+    width: 100px;
+}
+
+/* Style to chat42 */
+
+img.img-comment {
+    width: 50px;
+    height: auto;
+}
+
+.crop-profile {
+    width: 200px;
+    height: 300px;
+    overflow: hidden;
+}
+
+.crop-profile img {
+    width: 150px;
+    height: 200px;
+    margin: -75px 0 0 -100px;
+}
+
+img.view-profile {
+    width: 100%;
+}
+
+img.crop-chat {
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+}
+
+.font-blue-soft {
+    color: #169ef4;
+}
+
+.margin-bottom-chat {
+    padding-bottom: 30px;
+}
+
+.chat-user-selected {
+    background-color: #f1f1f1;
+}
+
+.well-info {
+    border: 1px solid #bddeee !important;
+    background: #def1fa !important;
+    background-color: #def1fa !important;
+}
+
+.well-success {
+    border: 1px solid #dff6cd !important;
+    background: #f0fae7 !important;
+    background-color: #f0fae7 !important;
+}
+
+.well-warning {
+    border: 1px solid #faebcc !important;
+    background: #fcf8e3 !important;
+    background-color: #fcf8e3 !important;
+}
+
+.well-danger {
+    border: 1px solid #ebccd1 !important;
+    background: #f2dede !important;
+    background-color: #f2dede !important;
+}
+
+.well-grey {
+    border: 1px solid #e3e3e3 !important;
+    background: #f1f1f1 !important;
+    background-color: #f1f1f1 !important;
+}
+
+.well-dark-grey {
+    border: 1px solid #b3b3b3 !important;
+    background: #b3b3b3 !important;
+    background-color: #b3b3b3 !important;
+}
+
+.well-white {
+    border: 1px solid #e3e3e3 !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+}
+
+.well-chat {
+    padding-top: 5px;
+    -webkit-border-radius: 15px;
+    border-radius: 15px;
+}
+
+.form {
+    padding: 0 !important;
+}
+
+.form .form-bordered .form-group {
+    margin: 0;
+    border-bottom: 1px solid #efefef;
+}
+
+.scroller {
+    padding: 0px;
+    margin: 0px;
+    padding-right: 12px;
+    overflow: hidden;
+    /*height: 450px !important;*/
+}
+
+.slimScrollDiv {
+    /*height: 450px !important;*/
+}
+
+.form .form-bordered .form-group > div {
+    padding: 15px;
+    border-left: 1px solid #efefef;
+}
+
+.row {
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.row.row-conversation {
+    margin: 5px 5px 5px 5px;
+}
+
+/* Portlets */
+
+.portlet {
+    margin-top: 0px;
+    margin-bottom: 25px;
+    padding: 0px;
+}
+
+.portlet > .portlet-title {
+    border-bottom: 1px solid #eee;
+    padding: 0;
+    margin-bottom: 10px;
+    min-height: 41px;
+}
+
+.portlet > .portlet-title > .caption {
+    float: left;
+    display: inline-block;
+    font-size: 18px;
+    line-height: 18px;
+    font-weight: 400;
+    padding: 10px 0;
+}
+
+.portlet > .portlet-body {
+    clear: both;
+}
+
+.notification {
+    float: right;
+    background-color:green;
+    width:20px;
+    height:20px;
+    border-radius:10px;
+    font-weight: bold;
+    color:#fff;
+    text-align: center;
+}
