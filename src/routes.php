@@ -11,7 +11,7 @@
 |
 */
 
-Route::group(array('prefix' => Config::get('easychat::uri')), 'before' => 'auth'), function()
+Route::group(array('prefix' => Config::get('easychat::uri'), 'before' => 'auth'), function()
 {
     Route::controller('/', 'Ronanflavio\Easychat\Controllers\ChatController');
 });
