@@ -13,12 +13,9 @@
         "illuminate/support": "4.2.*"
     },
     "autoload": {
-        "classmap": [
-            "src/migrations",
-            "src/controllers"
-        ],
         "psr-4": {
-            "Ronanflavio\\Easychat\\": "src/"
+            "Ronanflavio\\Easychat\\": "src/",
+            "Ronanflavio\\Easychat\\Controllers": "src/controllers"
         }
     },
     "minimum-stability": "stable"
