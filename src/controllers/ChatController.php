@@ -50,7 +50,7 @@ class ChatController extends \BaseController
         $inactiveUsers = $user['model']::whereNotIn($user['id'], $inactiveIds)->get();
         $users = array($activeUsers, $inactiveUsers);
 
-        $view = View::make('easychat::index'), compact('users', 'config'));
+        $view = View::make('easychat::index', compact('users', 'config'));
 
         return $view;
     }
