@@ -15,7 +15,7 @@
     "autoload": {
         "psr-4": {
             "Ronanflavio\\Easychat\\": "src/",
-            "Ronanflavio\\Easychat\\Controllers\\": "src/controllers"
+            "Ronanflavio\\Easychat\\Controllers\\": "src/controllers/"
         }
     },
     "minimum-stability": "stable"
