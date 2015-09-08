@@ -19,7 +19,7 @@ class EasychatServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->package('ronanflavio/easychat');
-        include __DIR__.'/../../routes.php';
+        include __DIR__.'routes.php';
 	}
 
 	/**
