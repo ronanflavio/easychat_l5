@@ -2,6 +2,11 @@
 
 namespace Ronanflavio\Easychat\Controllers;
 
+use Config;
+use Auth;
+use DB;
+use View;
+
 class ChatController extends \BaseController
 {
 
