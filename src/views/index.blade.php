@@ -1,8 +1,4 @@
-<!-- If you already referenced the jQuery (v. 2.x.x), delete this line -->
-{{ HTML::script('vendor/adminlte/plugins/jQuery/jQuery-2.1.4.min.js') }}
-<!-- -->
-
-<!-- -->
+<link rel="stylesheet" type="text/css" href="{{ URL::asset('packages/ronanflavio/easychat/css/main.css') }}">
 
 <div class="row">
     <div class="col-md-12">
@@ -22,20 +18,20 @@
                         <!-- First iteration for active users, and the last for inactive users -->
                         @foreach ($users as $item)
                         @foreach ($item as $user)
-                        <form role="form" class="form-horizontal form-bordered user-list" name="form-user-list-{{ $user->id }}">
-                            <span class="notifications-{{ $user->id }}"></span>
-                            <a href="javascript:void(0);" class="user-selected" data-user-id="{{ $user->id }}" data-user-url="{{ URL::action('ChatController@getMessagesList') }}">
+                        <form role="form" class="form-horizontal form-bordered user-list" name="form-user-list-{{ $user->{Config::get('easychat::tables.users.id')} }}">
+                            <span class="notifications-{{ $user->{Config::get('easychat::tables.users.id')} }}"></span>
+                            <a href="javascript:void(0);" class="user-selected" data-user-id="{{ $user->{Config::get('easychat::tables.users.id')} }}" data-user-url="{{ URL::to(Config::get('easychat::uri').'/messages-list') }}">
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <!-- User image here (use the "crop-chat" class into the "img" tag) -->
-                                                    <img src="{{ URL::to('/') }}/assets/img/avatar.png" class="crop-chat"/>
+                                                    <img src="{{ (Config::get('easychat::tables.users.photo') ?: URL::asset('packages/ronanflavio/easychat/img/avatar.png')) }}" class="crop-chat"/>
                                                 </div>
                                                 <div class="col-md-9">
                                                     <!-- Username here -->
-                                                    {{ $user->name }}
+                                                    {{ $user->{Config::get('easychat::tables.users.name')} }}
                                                 </div>
                                             </div>
                                         </div>
@@ -80,7 +76,7 @@
                         <input type="text" class="form-control text-message form-control">
                         <span class="input-group-btn">
                             {{ Form::hidden('to', 0) }}
-                            <button type="button" class="btn btn-primary form-control send-button" data-to="0" data-url-send-message="{{ URL::action('ChatController@getSendMessage') }}"> Ok </button>
+                            <button type="button" class="btn btn-primary form-control send-button" data-to="0" data-url-send-message="{{ URL::to(Config::get('easychat::uri').'/send-message') }}"> Ok </button>
                         </span>
                     </div>
                 </div>
@@ -90,16 +86,25 @@
         <!-- End of conversation here -->
         <!-- data div -->
         <div class="only-links"
-            data-users-list="{{ URL::action('ChatController@getUsersList', array('ajax', 0)) }}"
-            data-get-chat-news="{{ URL::action('ChatController@getCheckMessages') }}"
-            data-get-all-chat-news="{{ URL::action('ChatController@getCheckAllMessages') }}">
+            data-users-list="{{ URL::to(Config::get('easychat::uri').'/users-list', array('ajax', 0)) }}"
+            data-get-chat-news="{{ URL::to(Config::get('easychat::uri').'/check-messages') }}"
+            data-get-all-chat-news="{{ URL::to(Config::get('easychat::uri').'/check-all-messages') }}"
+            data-img-loading="{{ URL::asset('packages/ronanflavio/easychat/img/loading.gif') }}"
+            data-img-loading-bar="{{ URL::asset('packages/ronanflavio/easychat/img/loading-bar.gif') }}">
         </div>
 
     </div>
 </div>
 
-{{ HTML::script('assets/js/chat.js') }}
-{{ HTML::script('vendor/format-date-time/jquery.formatDateTime.min.js') }}
+<!-- If you already referenced the jQuery (v. 2.x.x), delete this line -->
+<script src="{{ URL::asset('packages/ronanflavio/easychat/js/jquery-2.1.4.min.js') }}"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="{{ URL::asset('packages/ronanflavio/easychat/css/bootstrap.min.css') }}">
+<!-- -->
+
+<script src="{{ URL::asset('packages/ronanflavio/easychat/js/chat.js') }}"></script>
+<script src="{{ URL::asset('packages/ronanflavio/easychat/js/jquery.slimscroll.min.js') }}"></script>
+<script src="{{ URL::asset('packages/ronanflavio/easychat/js/jquery.formatDateTime.min.js') }}"></script>
 
 <style type="text/css">
 .scroll-users { height: {{ $config['conversation_inner_box_size'] }} !important; }
