@@ -2,6 +2,16 @@
 
 namespace Ronanflavio\Easychat\Controllers;
 
+use Config;
+use Auth;
+use DB;
+use View;
+use Input;
+use Response;
+use Ronanflavio\Easychat\Models\ServerMessage;
+use Ronanflavio\Easychat\Models\UserMessage;
+use Ronanflavio\Easychat\Models\Room;
+
 class ChatController extends \BaseController
 {
 
@@ -60,8 +70,8 @@ class ChatController extends \BaseController
      *
      * @return JSON with server_message id
      */
-	public function getSendMessage()
-	{
+    public function getSendMessage()
+    {
         $user           = $this->tables('users');
         $user_messages  = $this->tables('user_messages');
         $room           = $this->tables('rooms');
@@ -125,7 +135,7 @@ class ChatController extends \BaseController
             'auth_id' => Auth::user()->$user['id'],
             'user_name' => Auth::user()->$user['name']
         ));
-	}
+    }
 
     /**
      * Get the messages from a chat roo
@@ -190,7 +200,7 @@ class ChatController extends \BaseController
         return Response::json(array(
             'status' => $conversation ? 'success' : 'error',
             'chats' => $conversation,
-            'user_name' => $user_receiver->name,
+            'user_name' => $user_receiver->$user['name'],
             'auth_id' => Auth::user()->$user['id'],
             'chat_count' => $chat_count
         ));
@@ -202,11 +212,11 @@ class ChatController extends \BaseController
      *
      * @return JSON with the messages list
      */
-	public function getNewMessages()
-	{
+    public function getNewMessages()
+    {
         $user = $this->tables('users');
         $room = $this->tables('rooms');
-		$user_messages = $this->tables('user_messages');
+        $user_messages = $this->tables('user_messages');
         $user_id = Input::get('user_id');
 
         $query = $user_messages['model']::join($room['table'], function($join) use ($room, $user_messages) {
@@ -231,15 +241,15 @@ class ChatController extends \BaseController
         ));
 
         return Response::json($messages);
-	}
+    }
 
     /**
      * Check if have new messages from a specific user
      *
      * @return JSON with bool result
      */
-	public function getCheckMessages()
-	{
+    public function getCheckMessages()
+    {
         $user = $this->tables('users');
         $room = $this->tables('rooms');
         $user_messages = $this->tables('user_messages');
@@ -256,7 +266,7 @@ class ChatController extends \BaseController
             ->count(array($user_messages['table'].'.'.$user_messages['id']));
 
         return ($resposta > 0 ? Response::json(true) : Response::json(false));
-	}
+    }
 
     /**
      * Check if have any new messages
@@ -302,6 +312,14 @@ class ChatController extends \BaseController
     {
         $user = $this->tables('users');
         $server_messages = $this->tables('server_messages');
+
+        if (Input::get('all_users'))
+        {
+            return Response::json($user['model']::select(array(
+                $user['name'].' as username',
+                $user['id'].' as user_id'
+            ))->lists('username', 'user_id'));
+        }
 
         $result = $user['model']::join($server_messages['table'], function($join) use ($user, $server_messages)
             {
