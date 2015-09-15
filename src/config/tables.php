@@ -31,7 +31,7 @@ return array(
 
         'id'         => 'id',
         'name'       => 'name',
-        'photo'      => 'photo',
+        'photo'      => null,
         'created_at' => 'created_at',
         'updated_at' => 'updated_at',
     ),

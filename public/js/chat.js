@@ -3,15 +3,18 @@ jQuery(function($){
 
     var user_selected = null,
         url_users_list = $('.only-links').data('users-list'),
-        users_list;
+        users_list,
+        img_loading = $('.only-links').data('img-loading'),
+        img_loading_bar = $('.only-links').data('img-loading-bar');
 
     $(window).bind("load", function() {
-        $.getJSON(url_users_list, {}, function(response){
+        $.getJSON(url_users_list, {'all_users':true}, function(response){
             users_list = response;
         });
     });
 
     $('.scroll-users').slimScroll();
+
 
     window.setInterval(function get_news() {
         if (user_selected != null) {
@@ -57,7 +60,7 @@ jQuery(function($){
         user_selected = $(this);
         var base_url = $('.div_conversation').data('base-url'),
             user_id = user_selected.data('user-id');
-        $('.div_conversation').html('<div class="center" style="line-height:350px"><img src="'+base_url+'/assets/img/loading.gif"></div>');
+        $('.div_conversation').html('<div class="center" style="line-height:350px"><img src="'+img_loading+'"></div>');
         refresh_chat($(this), 'true');
         // $('form[name=form-user-list-'+user_id+']').closest('span.notification').remove();
         // $('form[name=form-user-list-'+user_id+']').closest('span.notification').remove();
@@ -65,7 +68,7 @@ jQuery(function($){
 
     $('body').on('click', '.load_conversation', function(){
         var base_url = $('.div_conversation').data('base-url');
-        $(this).html('<div class="center"><img src="'+base_url+'/assets/img/loading-bar.gif"></div>');
+        $(this).html('<div class="center"><img src="'+img_loading_bar+'"></div>');
         refresh_chat(user_selected, 'false');
     });
 
