@@ -8,7 +8,7 @@ jQuery(function($){
         img_loading_bar = $('.only-links').data('img-loading-bar');
 
     $(window).bind("load", function() {
-        $.getJSON(url_users_list, {'all_users':true}, function(response){
+        $.post(url_users_list, {'all_users':true}, function(response){
             users_list = response;
         });
     });
@@ -21,7 +21,7 @@ jQuery(function($){
             var url = $('.only-links').data('get-chat-news'),
                 user_id = user_selected.data('user-id');
 
-            $.getJSON(url, {'user_id': user_id}, function(response){
+            $.post(url, {'user_id': user_id}, function(response){
                 if (response == true) {
                     refresh_chat(user_selected, 'true');
                     $('form[name=form-user-list-'+user_id+']').prependTo('.scroll-users');
@@ -31,7 +31,7 @@ jQuery(function($){
 
         var url_all = $('.only-links').data('get-all-chat-news');
 
-        $.getJSON(url_all, {}, function(response){
+        $.post(url_all, {}, function(response){
             if (response) {
                 $.each (response, function(key, value) {
                     var form_user = $('form[name=form-user-list-'+value.sent_by+']'),
@@ -42,7 +42,7 @@ jQuery(function($){
             }
         });
 
-    }, 10000);
+    }, 5000);
 
     $('.text-message').keypress(function(e){
         if (e.which == 13) {
@@ -90,7 +90,7 @@ jQuery(function($){
         $('.user-list').removeClass('chat-user-selected');
         form_user.addClass('chat-user-selected');
 
-        $.getJSON(url, {'user_id': user_id, 'limit': limit}, function(response){
+        $.post(url, {'user_id': user_id, 'limit': limit}, function(response){
             var notifications_user = $('.notifications-'+user_id);
             if ( ! ($.isPlainObject(response) && 'status' in response)) {
                 // not a json valid object
@@ -149,7 +149,7 @@ jQuery(function($){
             url = input.data('url-send-message'),
             text = $('.text-message').val();
         $('.text-message').val('');
-        $.getJSON(url, {'to': to, 'text': text}, function(response){
+        $.post(url, {'to': to, 'text': text}, function(response){
 
             $('.text-message').val('');
             var $chat = $('ul#nav'),

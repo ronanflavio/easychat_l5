@@ -6,7 +6,7 @@ class ServerMessage extends \Eloquent
 {
 
     public static $unguarded = true;
-	protected $table = 'ec_server_messages';
+    protected $table = 'ec_server_messages';
 
     public function sentBy()
     {

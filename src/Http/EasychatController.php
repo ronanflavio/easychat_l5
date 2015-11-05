@@ -1,20 +1,20 @@
 <?php
 
-namespace Ronanflavio\Easychat\Controllers;
+namespace Ronanflavio\Easychat\Http;
 
-use Config;
-use Auth;
-use DB;
-use View;
-use Input;
-use Response;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use Ronanflavio\Easychat\Http\EasychatRequest;
 use Ronanflavio\Easychat\Models\ServerMessage;
 use Ronanflavio\Easychat\Models\UserMessage;
 use Ronanflavio\Easychat\Models\Room;
+use Auth;
+use DB;
+use Input;
+use Response;
 
-class ChatController extends \BaseController
+class EasychatController extends Controller
 {
-
     /**
      * Array with basic configs to chat
      *
@@ -35,8 +35,8 @@ class ChatController extends \BaseController
      */
     public function __construct()
     {
-        $this->config = Config::get('easychat::config');
-        $this->tables = Config::get('easychat::tables');
+        $this->config = config('packages.Ronanflavio.Easychat.config');
+        $this->tables = config('packages.Ronanflavio.Easychat.tables');
     }
 
     /**
@@ -49,7 +49,7 @@ class ChatController extends \BaseController
         $user = $this->tables('users');
         $config = $this->config();
 
-        $activeUsers = $this->getUsersList();
+        $activeUsers = $this->usersList(new EasychatRequest());
         $inactiveIds = array(Auth::user()->$user['id']);
 
         foreach ($activeUsers as $item)
@@ -60,7 +60,7 @@ class ChatController extends \BaseController
         $inactiveUsers = $user['model']::whereNotIn($user['id'], $inactiveIds)->get();
         $users = array($activeUsers, $inactiveUsers);
 
-        $view = View::make('easychat::index', compact('users', 'config'));
+        $view = view('easychat::index', compact('users', 'config'));
 
         return $view;
     }
@@ -70,16 +70,18 @@ class ChatController extends \BaseController
      *
      * @return JSON with server_message id
      */
-    public function getSendMessage()
+    public function sendMessage(EasychatRequest $request)
     {
+        $input = $request->input();
+
         $user           = $this->tables('users');
         $user_messages  = $this->tables('user_messages');
         $room           = $this->tables('rooms');
         $server_message = $this->tables('server_messages');
 
         $by = Auth::user()->$user['id'];
-        $to = Input::get('to');
-        $text = Input::get('text');
+        $to = $input['to'];
+        $text = $input['text'];
 
         $obj_room = $room['model']::where($room['user_a'], '=', $by)
             ->where($room['user_b'], '=', $to)
@@ -142,18 +144,20 @@ class ChatController extends \BaseController
      *
      * @return JSON with the messages list
      */
-    public function getMessagesList()
+    public function messagesList(EasychatRequest $request)
     {
+        $input = $request->input();
+
         $user            = $this->tables('users');
         $user_messages   = $this->tables('user_messages');
         $room            = $this->tables('rooms');
         $server_messages = $this->tables('server_messages');
 
-        $user_id = Input::get('user_id');
+        $user_id = $input['user_id'];
         $user_receiver = $user['model']::findOrFail($user_id);
         $conversation = array();
         $chat_count = 0;
-        $limit_messages = Input::get('limit');
+        $limit_messages = $input['limit'];
 
         $obj_room = $room['model']::where($room['user_a'], '=', Auth::user()->$user['id'])
             ->where($room['user_b'], '=', $user_id)
@@ -212,12 +216,14 @@ class ChatController extends \BaseController
      *
      * @return JSON with the messages list
      */
-    public function getNewMessages()
+    public function newMessages(EasychatRequest $request)
     {
+        $input = $request->input();
+
         $user = $this->tables('users');
         $room = $this->tables('rooms');
         $user_messages = $this->tables('user_messages');
-        $user_id = Input::get('user_id');
+        $user_id = $input['user_id'];
 
         $query = $user_messages['model']::join($room['table'], function($join) use ($room, $user_messages) {
                 $join->on($room['table'].'.'.$room['user_a'], '=', $user_messages['user_id'])
@@ -248,12 +254,14 @@ class ChatController extends \BaseController
      *
      * @return JSON with bool result
      */
-    public function getCheckMessages()
+    public function checkMessages(EasychatRequest $request)
     {
+        $input = $request->input();
+
         $user = $this->tables('users');
         $room = $this->tables('rooms');
         $user_messages = $this->tables('user_messages');
-        $user_id = Input::get('user_id');
+        $user_id = $input['user_id'];
 
         $resposta = $user_messages['model']::join($room['table'], function($join) use ($room, $user_messages) {
                 $join->on($room['table'].'.'.$room['user_a'], '=', $user_messages['user_id'])
@@ -273,8 +281,10 @@ class ChatController extends \BaseController
      *
      * @return JSON with bool result
      */
-    public function getCheckAllMessages()
+    public function checkAllMessages(EasychatRequest $request)
     {
+        $input = $request->input();
+
         $user = $this->tables('users');
         $user_messages = $this->tables('user_messages');
 
@@ -297,7 +307,7 @@ class ChatController extends \BaseController
      */
     public function deleteMessage()
     {
-        $id = Input::get('message_id');
+        $id = $input['message_id'];
         $user_messages = $this->tables('user_messages');
         $message = $user_messages['model']::findOrFail($id);
         $message->delete();
@@ -308,12 +318,14 @@ class ChatController extends \BaseController
      *
      * @return JSON with list
      */
-    public function getUsersList($param = null, $impersonate = true)
+    public function usersList(EasychatRequest $request, $param = null, $impersonate = true)
     {
+        $input = $request->input();
+
         $user = $this->tables('users');
         $server_messages = $this->tables('server_messages');
 
-        if (Input::get('all_users'))
+        if (isset($input['all_users']))
         {
             return Response::json($user['model']::select(array(
                 $user['name'].' as username',
@@ -467,6 +479,4 @@ class ChatController extends \BaseController
             return 'col-md-9';
         }
     }
-
 }
-

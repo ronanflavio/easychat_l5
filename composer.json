@@ -1,25 +1,20 @@
 {
     "name": "ronanflavio/easychat",
-    "description": "jQuery based chat for Laravel 4 & 5 with database storage and integration with your users table.",
-    "keywords": ["chat", "easychat", "laravel", "jquery", "integration"],
+    "description": "jQuery based chat for Laravel 5.1 with database storage and integration with your users table.",
+    "license": "MIT",
     "authors": [
         {
             "name": "Ronan Flavio",
             "email": "contato@ronanflavio.com.br"
         }
     ],
-    "require": {
-        "php": ">=5.4.0",
-        "illuminate/support": "4.2.*"
-    },
     "autoload": {
-        "classmap": [
-            "src/migrations",
-            "src/controllers"
-        ],
-        "psr-0": {
-            "Ronanflavio\\Easychat": "src/"
+        "psr-4": {
+            "Ronanflavio\\Easychat\\": "src/"
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "dev",
+    "require": {
+        "illuminate/support": "~5"
+    }
 }

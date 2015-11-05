@@ -17,20 +17,20 @@ return array(
          * Set the Model name:
          */
 
-        'model' => 'User',
+        'model' => 'App\User',
 
         /**
          * Set the Table name:
          */
 
-        'table' => 'users',
+        'table' => 'usuarios',
 
         /**
          * Set the Fields names:
          */
 
         'id'         => 'id',
-        'name'       => 'name',
+        'name'       => 'nome',
         'photo'      => null,
         'created_at' => 'created_at',
         'updated_at' => 'updated_at',

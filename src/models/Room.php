@@ -6,7 +6,7 @@ class Room extends \Eloquent
 {
 
     public static $unguarded = true;
-	protected $table = 'ec_rooms';
+    protected $table = 'ec_rooms';
 
     public function userA()
     {
