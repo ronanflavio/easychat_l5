@@ -30,12 +30,22 @@ Em seguida, você deve adicionar a linha abaixo no fim da lista de `providers`, 
 `php artisan vendor:publish`
 
 Dessa forma os arquivos de configuração ficarão em `config/packages/Ronanflavio/Easychat`.
+
 Os arquivos de migrations estarão no basepath da aplicação, em `migrations/Ronanflavio/Easychat`.
+
 Os assets estarão no diretório público, em `public/packages/Ronanflavio/Easychat`.
 
 Existem tabelas que são necessárias para o funcionamento do chat, elas estão nomeadas com o prefixo `ec_`, com o intuito de diferenciá-las das tabelas do seu projeto. As migrations dessas tabelas estão dentro do package, para executá-las, utilize o comando abaixo:
 
 `php artisan migrate --path=migrations/Ronanflavio/Easychat`
+
+Por fim, deve ser adicionada a exceção do CSRF Token para a URI do easychat no arquivo `app\Http\Middleware\VerifyCsrfToken.php`, para isso insira a seguinte linha no array:
+
+```
+	protected $except = [
+		 'easychat/*'
+	];
+```
 
 ## Configuração
 
