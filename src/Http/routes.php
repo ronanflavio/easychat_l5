@@ -15,5 +15,5 @@ Route::group(['prefix' => config('packages.Ronanflavio.Easychat.config.uri'), 'b
     Route::post('check/messages', ['uses' => 'Ronanflavio\Easychat\Http\EasychatController@checkMessages', 'as' => 'easychat.check.messages']);
     Route::post('check/allmessages', ['uses' => 'Ronanflavio\Easychat\Http\EasychatController@checkAllMessages', 'as' => 'easychat.check.allmessages']);
     Route::post('check/messages', ['uses' => 'Ronanflavio\Easychat\Http\EasychatController@checkMessages', 'as' => 'easychat.check.messages']);
-    // Route::controller('/', 'Ronanflavio\Easychat\Http\EasychatController');
+    Route::controller('/', 'Ronanflavio\Easychat\Http\EasychatController');
 });
