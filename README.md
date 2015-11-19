@@ -16,12 +16,22 @@ Para instalar o Easychat, você deve entrar com o seguinte comando via composer:
 
 `composer require ronanflavio/easychatl5`
 
-Em seguida, você deve adicionar a linha abaixo no fim da lista de `providers`, do arquivo `config/app.php` do seu projeto:
+Em seguida, você deve adicionar a linha abaixo no fim da lista de `providers`, do arquivo `config/app.php` do seu projeto.
+No caso do Laravel 5.1, faça conforme abaixo:
 
 ```
 'providers' => [
   ...
   Ronanflavio\Easychat\EasychatServiceProvider::class,
+];
+```
+
+No caso da versão 5.0, faça conforme abaixo:
+
+```
+'providers' => [
+  ...
+  'Ronanflavio\Easychat\EasychatServiceProvider',
 ];
 ```
 
@@ -81,3 +91,9 @@ Quando fizer a publicação do package, os arquivos de configuração estarão d
         'updated_at' => 'updated_at',
     ),
 ```
+
+## Observações
+
+A aplicação é dependente do módulo de autenticação do Laravel (Auth) e, ainda, é necessário que o usuário esteja autenticado para que a aplicação funcione.
+
+Observe também que a troca das mensagens ocorrerá entre os usuários cadastrados no sistema através da tabela correspondente a de usuários.
