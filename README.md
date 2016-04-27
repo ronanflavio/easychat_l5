@@ -1,23 +1,26 @@
 # Easychat for Laravel 5.x
 
-## Descrição
+## Description
 
-Chat baseado em jQuery para Laravel 5.x utilizando armazenamento em banco de dados MySQL e integração com a tabela de usuários do seu projeto.
+Chat based in jQuery for Laravel 5.0, 5.1 and 5.2. It was made with storage into a MySQL database and integration with the users' table from your project.
 
-## Instalação
+## Instalation
 
 ## Laravel 4.x
 
-Veja a instalação [clicando aqui] (https://github.com/kikonuy/easychat).
+See how to [clicking here] (https://github.com/kikonuy/easychat).
 
 ## Laravel 5.x
 
-Para instalar o Easychat, você deve entrar com o seguinte comando via composer:
+To install Easychat, follow the steps bellow:
 
-`composer require ronanflavio/easychatl5`
+### 1)
+```
+composer require ronanflavio/easychatl5
+```
+### 2)
 
-Em seguida, você deve adicionar a linha abaixo no fim da lista de `providers`, do arquivo `config/app.php` do seu projeto.
-No caso do Laravel 5.1, faça conforme abaixo:
+If you're using Laravel 5.1 or 5.2, insert this line at the bottom of your `providers` list, into the `config/app.php` file.
 
 ```
 'providers' => [
@@ -26,7 +29,7 @@ No caso do Laravel 5.1, faça conforme abaixo:
 ];
 ```
 
-No caso da versão 5.0, faça conforme abaixo:
+In case of 5.0 version, do like this:
 
 ```
 'providers' => [
@@ -34,22 +37,30 @@ No caso da versão 5.0, faça conforme abaixo:
   'Ronanflavio\Easychat\EasychatServiceProvider',
 ];
 ```
+### 3)
+You need to publish the package files. So, do the following:
 
-É necessário publicar os assets, migrations e configurações do package em seu projeto, para isso execute os comandos abaixo:
+```
+php artisan vendor:publish
+```
 
-`php artisan vendor:publish`
+The configurations files will be placed at: `config/packages/Ronanflavio/Easychat`.
+The migrations files will be placed at your root project folder, in the directory: `migrations/Ronanflavio/Easychat`.
+And the assets, will be placed at: `public/packages/Ronanflavio/Easychat`.
 
-Dessa forma os arquivos de configuração ficarão em `config/packages/Ronanflavio/Easychat`.
+### 4)
 
-Os arquivos de migrations estarão no basepath da aplicação, em `migrations/Ronanflavio/Easychat`.
+To migrate the tables, do the following:
 
-Os assets estarão no diretório público, em `public/packages/Ronanflavio/Easychat`.
+```
+php artisan migrate --path=migrations/Ronanflavio/Easychat
+```
 
-Existem tabelas que são necessárias para o funcionamento do chat, elas estão nomeadas com o prefixo `ec_`, com o intuito de diferenciá-las das tabelas do seu projeto. As migrations dessas tabelas estão dentro do package, para executá-las, utilize o comando abaixo:
+Those tables are necessary for your chat. All of them are prefixed with `ec_` to distinguish it from your owner tables.
 
-`php artisan migrate --path=migrations/Ronanflavio/Easychat`
+### 5)
 
-Por fim, deve ser adicionada a exceção do CSRF Token para a URI do easychat no arquivo `app\Http\Middleware\VerifyCsrfToken.php`, para isso insira a seguinte linha no array:
+Finally, insert into your `app\Http\Middleware\VerifyCsrfToken.php` file, the exception for easychat URIs, like this:
 
 ```
 	protected $except = [
@@ -57,13 +68,10 @@ Por fim, deve ser adicionada a exceção do CSRF Token para a URI do easychat no
 	];
 ```
 
-## Configuração
+## Configuration
 
-Quando fizer a publicação do package, os arquivos de configuração estarão dentro do diretório:
-
-`config\packages\Ronanflavio\Easychat`
-
-É necessário informar qual o nome da tabela e da model, além dos principais campos: 'id' e 'name' respectivos à tabela de usuários dentro do arquivo `tables.php`. Veja abaixo o exemplo:
+When the package publish is done, the files will be placed at the direcoty: `config\packages\Ronanflavio\Easychat`.
+Navigate to there and map your Models and database tables into the `tables.php` file like the example bellow:
 
 ```
 'users' => array(
@@ -92,8 +100,6 @@ Quando fizer a publicação do package, os arquivos de configuração estarão d
     ),
 ```
 
-## Observações
+## Details
 
-A aplicação é dependente do módulo de autenticação do Laravel (Auth) e, ainda, é necessário que o usuário esteja autenticado para que a aplicação funcione.
-
-Observe também que a troca das mensagens ocorrerá entre os usuários cadastrados no sistema através da tabela correspondente a de usuários.
+The application is totally dependent of authenticate method from Laravel (Auth) and, of course, it's necessary that the user has been logged in into the system for it work.
