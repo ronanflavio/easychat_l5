@@ -50,7 +50,7 @@ class EasychatController extends Controller
         $config = $this->config();
 
         $activeUsers = $this->usersList(new EasychatRequest());
-        $inactiveIds = array(Auth::user()->$user['id']);
+        $inactiveIds = array(Auth::user()->{$user['id']});
 
         foreach ($activeUsers as $item)
         {
@@ -79,7 +79,7 @@ class EasychatController extends Controller
         $room           = $this->tables('rooms');
         $server_message = $this->tables('server_messages');
 
-        $by = Auth::user()->$user['id'];
+        $by = Auth::user()->{$user['id']};
         $to = $input['to'];
         $text = $input['text'];
 
@@ -134,8 +134,8 @@ class EasychatController extends Controller
         return Response::json(array(
             'status' => $obj_server_message ? 'success' : 'error',
             'chat' => $conversation,
-            'auth_id' => Auth::user()->$user['id'],
-            'user_name' => Auth::user()->$user['name']
+            'auth_id' => Auth::user()->{$user['id']},
+            'user_name' => Auth::user()->{$user['name']}
         ));
     }
 
@@ -159,13 +159,13 @@ class EasychatController extends Controller
         $chat_count = 0;
         $limit_messages = $input['limit'];
 
-        $obj_room = $room['model']::where($room['user_a'], '=', Auth::user()->$user['id'])
+        $obj_room = $room['model']::where($room['user_a'], '=', Auth::user()->{$user['id']})
             ->where($room['user_b'], '=', $user_id)
             ->first();
 
         if ( ! $obj_room)
         {
-            $obj_room = $room['model']::where($room['user_b'], '=', Auth::user()->$user['id'])
+            $obj_room = $room['model']::where($room['user_b'], '=', Auth::user()->{$user['id']})
                 ->where($room['user_a'], '=', $user_id)
                 ->first();
         }
@@ -179,8 +179,8 @@ class EasychatController extends Controller
                 ))
                 ->join($server_messages['table'], $server_messages['table'].'.'.$server_messages['id'], '=', $user_messages['table'].'.'.$user_messages['server_message_id'])
                 ->join($room['table'], $room['table'].'.'.$room['id'], '=', $server_messages['room_id'])
-                ->where($server_messages['table'].'.'.$server_messages['room_id'], '=', $obj_room->$room['id'])
-                ->where($user_messages['table'].'.'.$user_messages['user_id'], '=', Auth::user()->$user['id']);
+                ->where($server_messages['table'].'.'.$server_messages['room_id'], '=', $obj_room->{$room['id']})
+                ->where($user_messages['table'].'.'.$user_messages['user_id'], '=', Auth::user()->{$user['id']});
 
             $user_conversation = $query
                 ->distinct($server_messages['id'])
@@ -204,8 +204,8 @@ class EasychatController extends Controller
         return Response::json(array(
             'status' => $conversation ? 'success' : 'error',
             'chats' => $conversation,
-            'user_name' => $user_receiver->$user['name'],
-            'auth_id' => Auth::user()->$user['id'],
+            'user_name' => $user_receiver->{$user['name']},
+            'auth_id' => Auth::user()->{$user['id']},
             'chat_count' => $chat_count
         ));
 
@@ -233,10 +233,10 @@ class EasychatController extends Controller
             ->where(function($query) use ($user_messages, $user_id, $user) {
                 $query->orWhere($user_messages['table'].'.'.$user_messages['sent_by'], '=', $user_id)
                 ->orWhere($user_messages['table'].'.'.$user_messages['sent_to'], '=', $user_id)
-                ->orWhere($user_messages['table'].'.'.$user_messages['sent_by'], '=', Auth::user()->$user['id'])
-                ->orWhere($user_messages['table'].'.'.$user_messages['sent_to'], '=', Auth::user()->$user['id']);
+                ->orWhere($user_messages['table'].'.'.$user_messages['sent_by'], '=', Auth::user()->{$user['id']})
+                ->orWhere($user_messages['table'].'.'.$user_messages['sent_to'], '=', Auth::user()->{$user['id']});
             })
-            ->where($user_messages['table'].'.'.$user_messages['user_id'], '=', Auth::user()->$user['id']);
+            ->where($user_messages['table'].'.'.$user_messages['user_id'], '=', Auth::user()->{$user['id']});
 
         $messages_count = $query->count();
         $messages = $query->get();
@@ -269,8 +269,8 @@ class EasychatController extends Controller
             })
             ->where($user_messages['table'].'.'.$user_messages['created_at'], '>=', DB::raw('DATE_SUB(now(), INTERVAL 20 SECOND)'))
             ->where($user_messages['table'].'.'.$user_messages['sent_by'], '=', $user_id)
-            ->where($user_messages['table'].'.'.$user_messages['sent_to'], '=', Auth::user()->$user['id'])
-            ->where($user_messages['table'].'.'.$user_messages['user_id'], '=', Auth::user()->$user['id'])
+            ->where($user_messages['table'].'.'.$user_messages['sent_to'], '=', Auth::user()->{$user['id']})
+            ->where($user_messages['table'].'.'.$user_messages['user_id'], '=', Auth::user()->{$user['id']})
             ->count(array($user_messages['table'].'.'.$user_messages['id']));
 
         return ($resposta > 0 ? Response::json(true) : Response::json(false));
@@ -293,7 +293,7 @@ class EasychatController extends Controller
                 $user_messages['sent_by']
             ))
             ->where($user_messages['created_at'], '>=', DB::raw('DATE_SUB(now(), INTERVAL 10 SECOND)'))
-            ->where($user_messages['sent_to'], '=', Auth::user()->$user['id'])
+            ->where($user_messages['sent_to'], '=', Auth::user()->{$user['id']})
             ->groupBy($user_messages['sent_by'])
             ->get(array('message_count', 'sent_by'));
 
@@ -340,13 +340,13 @@ class EasychatController extends Controller
             })
             ->where(function($query) use ($server_messages, $user)
             {
-                $query->where($server_messages['table'].'.'.$server_messages['sent_to'], '=', Auth::user()->$user['id'])
-                    ->orWhere($server_messages['table'].'.'.$server_messages['sent_by'], '=', Auth::user()->$user['id']);
+                $query->where($server_messages['table'].'.'.$server_messages['sent_to'], '=', Auth::user()->{$user['id']})
+                    ->orWhere($server_messages['table'].'.'.$server_messages['sent_by'], '=', Auth::user()->{$user['id']});
             });
 
             if ($impersonate)
             {
-                $result = $result->where($user['table'].'.'.$user['id'], '<>', Auth::user()->$user['id']);
+                $result = $result->where($user['table'].'.'.$user['id'], '<>', Auth::user()->{$user['id']});
             }
 
         if ($param == 'ajax')
