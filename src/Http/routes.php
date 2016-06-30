@@ -5,8 +5,7 @@ Route::get('easychat/list', [
     'as' => 'easychat.index'
 ]);
 
-// Route::group(['prefix' => config('packages.Ronanflavio.Easychat.config.uri'), 'before' => 'auth'], function()
-Route::group(['prefix' => config('packages.Ronanflavio.Easychat.config.uri'), 'before' => 'auth'], function()
+Route::group(['prefix' => config('packages.Ronanflavio.Easychat.config.uri'), 'middleware' => ['web', 'auth']], function()
 {
     Route::post('users/list', ['uses' => 'Ronanflavio\Easychat\Http\EasychatController@usersList', 'as' => 'easychat.users.list']);
     Route::post('send/message', ['uses' => 'Ronanflavio\Easychat\Http\EasychatController@sendMessage', 'as' => 'easychat.send.message']);
