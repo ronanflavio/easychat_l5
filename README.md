@@ -1,3 +1,7 @@
+## Discontinued
+
+This project was dicontinued.
+
 # Easychat for Laravel 5.x
 
 ## Description
